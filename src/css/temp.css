@@ -1,0 +1,17 @@
+#errorSection {
+	display: none;
+	background-color: #FFAAAA;
+}
+
+#successSection {
+	display: none;
+	background-color: #AAFFAA;
+}
+
+#imagePreview {
+	max-height: 600px;
+}
+
+#imagePreviewSection {
+	display: none;
+}

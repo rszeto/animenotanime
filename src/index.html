@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="/css/temp.css" />
+		<script src="/js/jquery-3.1.0.min.js"></script>
+		<script src="/js/code.js"></script>
+
+		<audio class="animeSound" src="/media/sounds/anime1.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/media/sounds/anime2.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/media/sounds/anime3.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/media/sounds/anime4.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/media/sounds/anime5.mp3" preload="auto"></audio>
+		<audio class="animeLowConfSound" src="/media/sounds/anime_lowconf.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/media/sounds/notanime1.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/media/sounds/notanime2.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/media/sounds/notanime3.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/media/sounds/notanime4.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/media/sounds/notanime5.mp3" preload="auto"></audio>
+		<audio class="notAnimeLowConfSound" src="/media/sounds/notanime_lowconf.mp3" preload="auto"></audio>
+	</head>
+	<body>
+		<div id="imageSubmit">
+			<form id="imageSubmitForm" enctype="multipart/form-data">
+				Select an image:
+				<input id="imageSubmitFormImageInput" type="file" name="image" />
+				<input id="imageSubmitFormButton" type="submit" value="Upload" />
+			</form>
+			<div id="errorSection">
+				<span id="errorMessage"></span>
+			</div>
+			<div id="successSection">
+				<span id="successMessage"></span>
+			</div>
+		</div>
+		<div id="imagePreviewSection">
+			<img id="imagePreview">
+		</div>
+	</body>
+</html>
