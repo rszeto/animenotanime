@@ -1,3 +1,8 @@
+#content {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
 #errorSection {
 	display: none;
 	background-color: #FFAAAA;
@@ -9,9 +14,36 @@
 }
 
 #imagePreview {
+	max-width: 100%;
 	max-height: 600px;
+	/*position: absolute;*/
+	/*top: 50%;*/
+	/*left: 50%;*/
+	/*transform: translate(-50%, -50%);*/
 }
 
 #imagePreviewSection {
+	/*max-height: 600px;*/
+	text-align: center;
+	display: none;
+}
+
+#graphSection {
+	/*height: 600px;*/
+	display: none;
+}
+
+#graph {
+/*	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);*/
+}
+
+#imageSubmitFormImageInput {
+	display: none;
+}
+
+#imageSubmitFormButton {
 	display: none;
 }

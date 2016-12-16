@@ -9,12 +9,14 @@ function onSubmitImage(e) {
 		success: function(data) {
 			var response = JSON.parse(data);
 			var confidences = response.confidences;
+			$("#graphSection").show();
+			updateChart(confidences);
 
-			// Show success message
-			successMsg = "Successfully uploaded image.<br />";
-			successMsg += "Not anime confidence: " + confidences[0] + "<br />";
-			successMsg += "Anime confidence: " + confidences[1];
-			showSuccess(successMsg);
+			// // Show success message
+			// successMsg = "Successfully uploaded image.<br />";
+			// successMsg += "Not anime confidence: " + confidences[0] + "<br />";
+			// successMsg += "Anime confidence: " + confidences[1];
+			// showSuccess(successMsg);
 
 			// Play sound depending on not-anime confidence
 			if(confidences[0] > 0.65) {
@@ -53,16 +55,20 @@ function onSubmitImage(e) {
 		cache: false,
 		contentType: false,
 		processData: false
-	}, 'json');
+	}, "json");
 }
 
 function onFileChosen(e) {
-	var allowedFileTypes = ['png', 'jpeg', 'jpg'];
+	// Hide the graph
+	$("#graphSection").hide();
+
+	// Make sure the file is a supported image type
+	var allowedFileTypes = ["png", "jpeg", "jpg"];
 	if(this.files && this.files[0]) {
 		// Verify that the file is a supported image type by checking extension. Assumes
 		// file name is in standard format (###.EXT)
 		var file = this.files[0]
-		var ext = file.name.split('.').pop();
+		var ext = file.name.split(".").pop();
 		if($.inArray(ext, allowedFileTypes) > -1) {
 			var reader = new FileReader();
 			reader.addEventListener("load", function() {
@@ -99,8 +105,44 @@ function showSuccess(message) {
 // E.g. resetChosenFile($("#elemId")))
 // Source: http://jsfiddle.net/rPaZQ/
 function resetChosenFile(e) {
-	e.wrap('<form>').closest('form').get(0).reset();
+	e.wrap("<form>").closest("form").get(0).reset();
 	e.unwrap();
+}
+
+function createChart() {
+	var chart = new CanvasJS.Chart("graph", {
+		title:{
+			text: "Probability of Anime"              
+		},
+		axisY: {
+			minimum: 0,
+			maximum: 1,
+			interval: 0.2,
+			gridThickness: 0
+		},
+		data: [              
+		{
+			type: "column",
+			dataPoints: [
+				{ label: "Not anime",  y: 0 },
+				{ label: "Anime",  y: 0 }
+			]
+		}
+		]
+	});
+	return chart;
+}
+
+function updateChart(probs) {
+	// Set not-anime probability
+	chart.options.data[0].dataPoints[0].y = probs[0]
+	prob_str = (Math.round(probs[0] * 1000) / 10).toString() + "%"
+	chart.options.data[0].dataPoints[0].indexLabel = prob_str
+	// Set anime probability
+	chart.options.data[0].dataPoints[1].y = probs[1]
+	prob_str = (Math.round(probs[1] * 1000) / 10).toString() + "%"
+	chart.options.data[0].dataPoints[1].indexLabel = prob_str
+	chart.render()
 }
 
 // Initialize page after document is loaded
@@ -111,4 +153,6 @@ $(function() {
 	animeLowConfSounds = $(".animeLowConfSound");
 	notAnimeSounds = $(".notAnimeSound");
 	notAnimeLowConfSounds = $(".notAnimeLowConfSound");
+	chart = createChart();
+	chart.render();
 });

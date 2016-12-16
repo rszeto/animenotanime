@@ -1,7 +1,9 @@
 <html>
 	<head>
+		<link rel="stylesheet" href="/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/css/temp.css" />
 		<script src="/js/jquery-3.1.0.min.js"></script>
+		<script src="/js/jquery.canvasjs.min.js"></script>
 		<script src="/js/code.js"></script>
 
 		<audio class="animeSound" src="/media/sounds/anime1.mp3" preload="auto"></audio>
@@ -18,11 +20,22 @@
 		<audio class="notAnimeLowConfSound" src="/media/sounds/notanime_lowconf.mp3" preload="auto"></audio>
 	</head>
 	<body>
+		<div id="content">
+		<h1>Anime or Not?</h1>
+		<p>This is stuff</p>
 		<div id="imageSubmit">
 			<form id="imageSubmitForm" enctype="multipart/form-data">
-				Select an image:
-				<input id="imageSubmitFormImageInput" type="file" name="image" />
-				<input id="imageSubmitFormButton" type="submit" value="Upload" />
+				<h2>Select an image</h2>
+				<label class="btn btn-default">
+					Browse <input id="imageSubmitFormImageInput" type="file" name="image" />
+				</label>
+				<div id="imagePreviewSection" class="col-md-12">
+					<img id="imagePreview">
+				</div>
+				<h2>Upload it!</h2>
+				<label class="btn btn-default">
+					Upload <input id="imageSubmitFormButton" type="submit" value="Upload" />
+				</label>
 			</form>
 			<div id="errorSection">
 				<span id="errorMessage"></span>
@@ -31,8 +44,10 @@
 				<span id="successMessage"></span>
 			</div>
 		</div>
-		<div id="imagePreviewSection">
-			<img id="imagePreview">
+		
+		<div id="graphSection" class="col-md-12">
+			<div id="graph"></div>
+		</div>
 		</div>
 	</body>
 </html>
