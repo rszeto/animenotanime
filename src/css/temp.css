@@ -17,6 +17,12 @@
 	background-image: url('/media/img/bg-intro.jpg');
 }
 
+#introSection .title {
+	font-weight: 700;
+	margin-bottom: 30px;
+	text-transform: uppercase;
+}
+
 #selectImageSection {
 	background-image: url('/media/img/bg-select-image.jpg');
 }
@@ -35,14 +41,11 @@
 }
 
 #imagePreviewSection {
-	/*max-height: 600px;*/
 	text-align: center;
 	padding: 20px 0px;
-	/*display: none;*/
 }
 
 .display-with-results {
-	/*height: 600px;*/
 	display: none;
 }
 
@@ -74,11 +77,6 @@
 
 #informationalSection {
 	position: relative;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-    background-position: center;
 	background-image: url(/media/img/bg-cta.jpg);
 }
 
