@@ -1,6 +1,19 @@
+.backgroundImage {
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+	background-position: center;
+}
+
 #introSection {
 	min-height: 100%;
 	text-align: justify;
+	background-image: url('/media/img/bg-intro.jpg');
+}
+
+#selectImageSection {
+	background-image: url('/media/img/bg-select-image.jpg');
 }
 
 #headerContentInner {
@@ -42,15 +55,15 @@
 	display: none;
 }
 
+#graphSection {
+	background-image: url('/media/img/bg-graph.jpg');
+}
+
 #graphWrapper {
 	padding: 20px;
 }
 
 #graph {
-/*	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);*/
 	width: 600px;
 	height: 400px;
 	margin: auto;
