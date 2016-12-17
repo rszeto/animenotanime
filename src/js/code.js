@@ -13,12 +13,6 @@ function onSubmitImage(e) {
 			updateChart(confidences);
 			scrollToDivFn("graphSection")()
 
-			// // Show success message
-			// successMsg = "Successfully uploaded image.<br />";
-			// successMsg += "Not anime confidence: " + confidences[0] + "<br />";
-			// successMsg += "Anime confidence: " + confidences[1];
-			// showSuccess(successMsg);
-
 			// Play sound depending on not-anime confidence
 			if(confidences[0] > 0.65) {
 				var soundI = Math.floor(notAnimeSounds.length * Math.random());
@@ -88,19 +82,9 @@ function onFileChosen(e) {
 }
 
 function showError(message) {
-	// Hide success message
-	$("#successSection").hide();
 	// Change and show error message
 	$("#errorMessage").html(message);
-	$("#errorSection").show();
-}
-
-function showSuccess(message) {
-	// Hide error section
-	$("#errorSection").hide();
-	// Change and show success message
-	$("#successMessage").html(message);
-	$("#successSection").show();
+	$("#errorModal").modal('show');
 }
 
 // Resets given file selection elements as selected by jQuery

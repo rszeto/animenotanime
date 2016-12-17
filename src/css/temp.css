@@ -1,3 +1,8 @@
+#errorModal .modal-body .well {
+	font-family: monospace;
+	word-wrap: break-word;
+}
+
 .backgroundImage {
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -22,16 +27,6 @@
 
 .videoContainer {
 	padding-bottom: 20px;
-}
-
-#errorSection {
-	display: none;
-	background-color: #FFAAAA;
-}
-
-#successSection {
-	display: none;
-	background-color: #AAFFAA;
 }
 
 #imagePreview {
