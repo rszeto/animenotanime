@@ -57,21 +57,30 @@ function onFileChosen(e) {
 	// Hide the graph
 	$(".display-with-results").hide();
 
-	// Make sure the file is a supported image type
+	// Define allowed file types and max file size (in bytes)
 	var allowedFileTypes = ["png", "jpeg", "jpg"];
+	var maxFileSize = 2097152
 	if(this.files && this.files[0]) {
 		// Verify that the file is a supported image type by checking extension. Assumes
 		// file name is in standard format (###.EXT)
 		var file = this.files[0]
 		var ext = file.name.split(".").pop();
 		if($.inArray(ext, allowedFileTypes) > -1) {
-			var reader = new FileReader();
-			reader.addEventListener("load", function() {
-				$("#imagePreview").attr("src", reader.result);
-				$("#uploadImageSection").show();
-				scrollToDivFn("uploadImageSection")()
-			}, false);
-			reader.readAsDataURL(this.files[0]);
+			// Check that file is small enough
+			if(file.size < maxFileSize) {
+				var reader = new FileReader();
+				reader.addEventListener("load", function() {
+					$("#imagePreview").attr("src", reader.result);
+					$("#uploadImageSection").show();
+					scrollToDivFn("uploadImageSection")()
+				}, false);
+				reader.readAsDataURL(this.files[0]);
+			}
+			else {
+				showError("File is too large. Please select a file less than 2 MB.");
+				resetChosenFile($("#imageSubmitFormImageInput"));
+				$("#uploadImageSection").hide();
+			}
 		}
 		else {
 			showError("Unsupported file type. Please select a png, jpeg, or jpg image.");
