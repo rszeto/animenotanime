@@ -1,6 +1,14 @@
-#content {
-	max-width: 800px;
-	margin: 0 auto;
+#introSection {
+	min-height: 100%;
+	text-align: justify;
+}
+
+#headerContentInner {
+	position: relative;
+}
+
+.videoContainer {
+	padding-bottom: 20px;
 }
 
 #errorSection {
@@ -25,12 +33,17 @@
 #imagePreviewSection {
 	/*max-height: 600px;*/
 	text-align: center;
+	padding: 20px 0px;
+	/*display: none;*/
+}
+
+.display-with-results {
+	/*height: 600px;*/
 	display: none;
 }
 
-#graphSection {
-	/*height: 600px;*/
-	display: none;
+#graphWrapper {
+	padding: 20px;
 }
 
 #graph {
@@ -38,6 +51,9 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);*/
+	width: 600px;
+	height: 400px;
+	margin: auto;
 }
 
 #imageSubmitFormImageInput {
@@ -46,4 +62,22 @@
 
 #imageSubmitFormButton {
 	display: none;
+}
+
+#uploadImageSection {
+	display: none;
+}
+
+#informationalSection {
+	position: relative;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    background-position: center;
+	background-image: url(/media/img/bg-cta.jpg);
+}
+
+i.fa {
+	margin-top: 20px;
 }

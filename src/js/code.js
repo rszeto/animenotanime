@@ -9,8 +9,9 @@ function onSubmitImage(e) {
 		success: function(data) {
 			var response = JSON.parse(data);
 			var confidences = response.confidences;
-			$("#graphSection").show();
+			$(".display-with-results").show();
 			updateChart(confidences);
+			scrollToDivFn("graphSection")()
 
 			// // Show success message
 			// successMsg = "Successfully uploaded image.<br />";
@@ -60,7 +61,7 @@ function onSubmitImage(e) {
 
 function onFileChosen(e) {
 	// Hide the graph
-	$("#graphSection").hide();
+	$(".display-with-results").hide();
 
 	// Make sure the file is a supported image type
 	var allowedFileTypes = ["png", "jpeg", "jpg"];
@@ -73,14 +74,15 @@ function onFileChosen(e) {
 			var reader = new FileReader();
 			reader.addEventListener("load", function() {
 				$("#imagePreview").attr("src", reader.result);
-				$("#imagePreviewSection").show();
+				$("#uploadImageSection").show();
+				scrollToDivFn("uploadImageSection")()
 			}, false);
 			reader.readAsDataURL(this.files[0]);
 		}
 		else {
 			showError("Unsupported file type. Please select a png, jpeg, or jpg image.");
 			resetChosenFile($("#imageSubmitFormImageInput"));
-			$("#imagePreviewSection").hide();
+			$("#uploadImageSection").hide();
 		}
 	}
 }
@@ -145,10 +147,20 @@ function updateChart(probs) {
 	chart.render()
 }
 
+function scrollToDivFn(divId) {
+	return function(e) {
+		$("html, body").stop().animate({
+	        scrollTop: $("#" + divId).offset().top
+	    }, 1250, "easeInOutExpo");
+	}
+}
+
 // Initialize page after document is loaded
 $(function() {
-	$("#imageSubmitForm").submit(onSubmitImage);
+	$("#tryItButton").click(scrollToDivFn("selectImageSection"));
 	$("#imageSubmitFormImageInput").change(onFileChosen);
+	$("#uploadButton").click(onSubmitImage);
+	$("#tryAgainButton").click(scrollToDivFn("selectImageSection"));
 	animeSounds = $(".animeSound");
 	animeLowConfSounds = $(".animeLowConfSound");
 	notAnimeSounds = $(".notAnimeSound");
