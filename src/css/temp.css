@@ -77,6 +77,7 @@
 
 #informationalSection {
 	position: relative;
+	text-align: justify;
 	background-image: url(/media/img/bg-cta.jpg);
 }
 
