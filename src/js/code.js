@@ -139,10 +139,39 @@ function scrollToDivFn(divId) {
 	}
 }
 
+// Returns a handler that unmutes the given sound and removes itself
+function unmuteSoundHandler(sound) {
+	var ret = function() {
+		sound.muted = false;
+		sound.removeEventListener("ended", ret);
+	}
+	return ret;
+}
+
+// Play webpage sounds silently. When added to a button click handler, this forces the sounds
+// to load. This hack is required to play sounds on mobile.
+function playSoundsSilently() {
+	var soundVars = [animeSounds, animeLowConfSounds, notAnimeSounds, notAnimeLowConfSounds];
+	for(var i = 0; i < soundVars.length; i++) {
+		for(var j = 0; j < soundVars[i].length; j++) {
+			var curSound = soundVars[i][j];
+			var unmuteCurSoundFn = unmuteSoundHandler(curSound);
+			// Mute sound before playing
+			curSound.muted = true;
+			// Add handler that unmutes sound after it plays
+			curSound.addEventListener("ended", unmuteCurSoundFn);
+			// Start playing the sound
+			curSound.play();
+		}
+	}
+}
+
 // Initialize page after document is loaded
 $(function() {
 	$("#tryItButton").click(scrollToDivFn("selectImageSection"));
 	$("#imageSubmitFormImageInput").change(onFileChosen);
+	// Load sounds by playing them silently on click
+	$("#imageSubmitFormImageInput").click(playSoundsSilently);
 	$("#uploadButton").click(onSubmitImage);
 	$("#tryAgainButton").click(scrollToDivFn("selectImageSection"));
 	animeSounds = $(".animeSound");
