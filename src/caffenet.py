@@ -29,20 +29,3 @@ class CaffeNet:
         # Extract and return probabilities
         return out['prob'].flatten().tolist()
 
-'''
-Given the bytestream for the image, returns a NumPy float32 array with shape (H x W x 3).
-Grayscale images are converted to color, and alpha channel is removed. 
-'''
-def load_image_from_bytestream(stream):
-    # Load image from stream
-    pil_image = Image.open(stream)
-    # Convert image to NumPy float32 array, as expected for CaffeNet
-    img = skimage.img_as_float(pil_image).astype(np.float32)
-    # Convert grayscale images to color
-    if img.ndim == 2:
-        img = img[:, :, np.newaxis]
-        img = np.tile(img, (1, 1, 3))
-    # Remove alpha channel is present
-    elif img.shape[2] == 4:
-        img = img[:, :, :3]
-    return img

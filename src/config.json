@@ -3,5 +3,5 @@
 	"PORT": 8080,
 	"DEPLOY_PROTOTXT_PATH": "/home/szetor/Documents/random/animenotanime/caffe/model/deploy.prototxt",
 	"WEIGHTS_PATH": "/home/szetor/Documents/random/animenotanime/caffe/model/snapshot/animenotanime_iter_6000.caffemodel",
-	"PYCAFFE_PATH": "/z/home/szetor/sw/caffe-r4cnn/python"
+	"PYCAFFE_PATH": "/home/szetor/caffe/python"
 }

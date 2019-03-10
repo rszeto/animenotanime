@@ -3,8 +3,8 @@ import os
 import sys
 import json
 from bottle import Bottle, run, template, request, static_file, abort
-from caffenet import CaffeNet, load_image_from_bytestream
-from utils import load_config
+# from caffenet import CaffeNet, load_image_from_bytestream
+from utils import load_config, load_image_from_bytestream
 
 # Filter allowed extensions server-side
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
@@ -17,7 +17,19 @@ DEPLOY_PROTOTXT_PATH = config['DEPLOY_PROTOTXT_PATH']
 WEIGHTS_PATH = config['WEIGHTS_PATH']
 
 # Initialize Caffe wrapper
-caffe_net = CaffeNet(DEPLOY_PROTOTXT_PATH, WEIGHTS_PATH)
+# caffe_net = CaffeNet(DEPLOY_PROTOTXT_PATH, WEIGHTS_PATH)
+
+# Use dummy CaffeNet
+class DummyCaffeNet:
+
+    def __init__(self, caffe_model_path, deploy_protoxt_path):
+        pass
+
+    def predict(self, image):
+        p = np.random.rand()
+        return [p, 1-p]
+
+caffe_net = DummyCaffeNet(DEPLOY_PROTOTXT_PATH, WEIGHTS_PATH)
 
 app = Bottle()
 
