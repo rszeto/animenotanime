@@ -1,7 +1,4 @@
 {
 	"HOSTNAME": "ryanszeto.com",
-	"PORT": 8080,
-	"DEPLOY_PROTOTXT_PATH": "/home/rszeto/animenotanime/caffe/model/deploy.prototxt",
-	"WEIGHTS_PATH": "/home/rszeto/animenotanime/caffe/model/snapshot/animenotanime_iter_6000.caffemodel",
-	"PYCAFFE_PATH": "/home/rszeto/caffe/python"
+	"PORT": 8080
 }
