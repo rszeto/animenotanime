@@ -4,5 +4,4 @@ dependencies:
     - python=2.7
     - numpy=1.16.2
     - scikit-image=0.14.1
-    - pip:
-        - bottle
+    - flask=1.0.2

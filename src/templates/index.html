@@ -1,0 +1,150 @@
+<html>
+	<head>
+		<title>Anime or Not?</title>
+
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/static/css/new-age.min.css" />
+		<link rel="stylesheet" href="/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/static/css/temp.css" />
+
+		<audio class="animeSound" src="/static/media/sounds/anime1.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/static/media/sounds/anime2.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/static/media/sounds/anime3.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/static/media/sounds/anime4.mp3" preload="auto"></audio>
+		<audio class="animeSound" src="/static/media/sounds/anime5.mp3" preload="auto"></audio>
+		<audio class="animeLowConfSound" src="/static/media/sounds/anime_lowconf.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/static/media/sounds/notanime1.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/static/media/sounds/notanime2.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/static/media/sounds/notanime3.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/static/media/sounds/notanime4.mp3" preload="auto"></audio>
+		<audio class="notAnimeSound" src="/static/media/sounds/notanime5.mp3" preload="auto"></audio>
+		<audio class="notAnimeLowConfSound" src="/static/media/sounds/notanime_lowconf.mp3" preload="auto"></audio>
+	</head>
+	<body>
+
+		<!-- Modal dialog for showing errors -->
+		<div id="errorModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">ERROR</h4>
+					</div>
+					<div class="modal-body">
+						<p>Something went wrong! Check the message below. If you need help, copy the message below and contact the site owner.</p>
+						<div class="well">
+							<span id="errorMessage"></span>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<section id="introSection" class="bg-primary backgroundImage">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h1 class="title">Anime or Not?</h1>
+
+						<p>Merriam-Webster defines <em>anime</em> as: <em>a style of animation originating in Japan that is characterized by stark colorful graphics depicting vibrant characters in action-filled plots often with fantastic or futuristic themes.</em> While the jury's still out on whether examples influenced by Western culture like <a href="https://en.wikipedia.org/wiki/Avatar:_The_Last_Airbender" target="_blank"><em>Avatar: The Last Airbender</em></a> or <a href="https://www.youtube.com/watch?v=HQnC1UHBvWA" target="_blank">the music video for Porter Robinson's <em>Shelter</em></a> are really anime or not, we tend to know it when we see it, as shown by the video below.</p>
+
+						<div class="row">
+							<div class="videoContainer col-sm-10 col-sm-offset-1">
+								<div class="embed-responsive embed-responsive-4by3">
+									<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xIx2dAmKtms"></iframe>
+								</div>
+							</div>
+						</div>
+
+						<p>But here's the real question on everyone's mind: <em>Can computers tell us what is and is not anime?</em> Indeed, if this were the case, we'd have an absolute definition for what can be considered anime, and arguments like the one I mentioned above would be pointless.</p>
+
+						<p>As a first step towards answering this important question, I trained a computer to learn about anime by showing it thousands of examples of anime and non-anime images. Now it's time to put it to the test! Can you trick the computer?</p>
+
+						<p>Some things to keep in mind: First, it can only handle <em>png, jpg,</em> and <em>jpeg</em> files that are under 2 MB in size. Second, the computer responds vocally, so make sure your sound is on so it can be heard!</p>
+
+						<a id="tryItButton" class="btn btn-outline btn-xl page-scroll">Try it now!</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="selectImageSection" class="bg-primary text-center backgroundImage">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<div id="imageSubmit">
+							<form id="imageSubmitForm" enctype="multipart/form-data">
+								<h2>Select an image!</h2>
+								<label class="btn btn-default btn-lg">
+									Browse <input id="imageSubmitFormImageInput" type="file" name="image" />
+								</label>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="uploadImageSection" class="bg-primary text-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Looks good? Upload it!</h2>
+						<div id="imagePreviewSection" class="col-md-12">
+							<img id="imagePreview">
+						</div>
+						<a id="uploadButton" class="btn btn-default btn-lg">Upload</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="graphSection" class="bg-primary text-center display-with-results backgroundImage">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Here's what the computer thinks!</h2>
+						<div id="graphWrapper">
+							<div id="graph"></div>
+						</div>
+						<a id="tryAgainButton" class="btn btn-default btn-lg">Try again?</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="informationalSection" class="bg-primary text-center display-with-results backgroundImage">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2">
+						<h2>Incredible! How does it work?</h2>
+						<p>This website uses a bit of computer magic known as <em>deep learning</em>. Today, it's responsible for everything you can imagine, including automated driving, health care, and even day-to-day shopping! Who knows? Your TV or printer might already be equipped with deep learning technology!</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="contactSection" class="contact bg-primary display-with-results">
+	        <div class="container">
+	            <h2>Follow me for more!</h2>
+	            <ul class="list-inline list-social">
+	                <li class="social-twitter">
+	                    <a href="#" onclick="return false"><i class="fa fa-twitter"></i></a>
+	                </li>
+	                <li class="social-facebook">
+	                    <a href="#" onclick="return false"><i class="fa fa-facebook"></i></a>
+	                </li>
+	            </ul>
+	        </div>
+	    </section>
+
+		<script src="/static/js/jquery-3.1.0.min.js"></script>
+		<script src="/static/js/jquery.canvasjs.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+		<script src="/static/js/code.js"></script>
+		<!-- <script src="/static/js/new-age.min.js"></script> -->
+	</body>
+</html>

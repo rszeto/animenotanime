@@ -14,7 +14,7 @@
 #introSection {
 	min-height: 100%;
 	text-align: justify;
-	background-image: url('/media/img/bg-intro.jpg');
+	background-image: url('/static/media/img/bg-intro.jpg');
 }
 
 #introSection .title {
@@ -24,7 +24,7 @@
 }
 
 #selectImageSection {
-	background-image: url('/media/img/bg-select-image.jpg');
+	background-image: url('/static/media/img/bg-select-image.jpg');
 }
 
 #headerContentInner {
@@ -50,7 +50,7 @@
 }
 
 #graphSection {
-	background-image: url('/media/img/bg-graph.jpg');
+	background-image: url('/static/media/img/bg-graph.jpg');
 }
 
 #graphWrapper {
@@ -78,7 +78,7 @@
 #informationalSection {
 	position: relative;
 	text-align: justify;
-	background-image: url(/media/img/bg-cta.jpg);
+	background-image: url(/static/media/img/bg-cta.jpg);
 }
 
 i.fa {
