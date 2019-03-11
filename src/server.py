@@ -6,15 +6,10 @@ import traceback
 import numpy as np
 from flask import Flask, render_template, request
 
-from utils import load_config, load_image_from_bytestream
+from utils import load_image_from_bytestream
 
 # Filter allowed extensions server-side
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
-
-# Load config variables
-config = load_config('config.json')
-HOSTNAME = config['HOSTNAME']
-PORT = config['PORT']
 
 # Use dummy CaffeNet
 class DummyCaffeNet(object):
