@@ -4,21 +4,31 @@ import sys
 import traceback
 
 import numpy as np
+import torch
+import torchvision.models as models
+import torchvision.transforms as transforms
 from flask import Flask, render_template, request
-
-from utils import load_image_from_bytestream
+from PIL import Image
+from torch.nn.functional import softmax
 
 # Filter allowed extensions server-side
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
 
-# Use dummy CaffeNet
-class DummyCaffeNet(object):
+model = models.resnet18()
+device = torch.device('cuda', 0) if torch.cuda.is_available() else 'cpu'
+model.to(device)
+checkpoint = torch.load('pytorch/model_best.pth.tar')
+model.load_state_dict(checkpoint['state_dict'])
 
-    def predict(self, image):
-        p = np.random.rand()
-        return [p, 1-p]
-
-caffe_net = DummyCaffeNet()
+transform = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+])
 
 app = Flask(__name__)
 
@@ -35,12 +45,11 @@ def submitImage():
         # Throw error
         abort(400, 'File type not supported')
     else:
-        image = load_image_from_bytestream(imageData.stream)
-        result = caffe_net.predict(image)
-
-        ret = {
-            'confidences': result
-        }
+        image = Image.open(imageData.stream)
+        image_tensor = transform(image).unsqueeze(0)
+        output = model(image_tensor.to(device))
+        confidences = softmax(output[0, :2]).detach().cpu().numpy().tolist()
+        ret = dict(confidences=confidences)
         return json.dumps(ret)
 
 @app.errorhandler(400)
