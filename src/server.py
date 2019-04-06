@@ -56,7 +56,6 @@ def submitImage():
 @app.errorhandler(500)
 def handleError(error):
     stack_trace = traceback.format_exc()
-    error_message = error.message
 
     ret = {
         'body': stack_trace,

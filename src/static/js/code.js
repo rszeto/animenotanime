@@ -8,10 +8,19 @@ function onSubmitImage(e) {
 		type: "post",
 		success: function(data) {
 			var response = JSON.parse(data);
+
+			// Check for error
+			if(response.traceback !== undefined) {
+				var traceback = response.traceback.replace(/(?:\r\n|\r|\n)/g, "<br />");
+				var errorMsg = traceback;
+				showError(errorMsg);
+				return;
+			}
+
 			var confidences = response.confidences;
 			$(".display-with-results").show();
 			updateChart(confidences);
-			scrollToDivFn("graphSection")()
+			scrollToDivFn("graphSection")();
 
 			// Play sound depending on not-anime confidence
 			if(confidences[0] > 0.65) {
