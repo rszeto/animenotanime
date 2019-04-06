@@ -19,6 +19,7 @@ device = torch.device('cuda', 0) if torch.cuda.is_available() else 'cpu'
 model.to(device)
 checkpoint = torch.load('pytorch/model_best.pth.tar')
 model.load_state_dict(checkpoint['state_dict'])
+model.eval()
 
 transform = transforms.Compose([
     transforms.Resize(256),
