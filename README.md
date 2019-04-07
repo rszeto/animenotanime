@@ -5,73 +5,15 @@ This repository contains a web application that classifies images as anime or no
 
 This was designed to be a whimsical website for my friends; it is NOT optimized or suitable for large-scale deployment.
 
-## Create environment
+## Heroku
 
-In the project root, run these commands:
+This project is designed to run the web server (under `src`) on Heroku out-of-the-box.
 
-```bash
-virtualenv env
-source env/bin/activate
-pip install -r requirements.txt
-```
+## Sub-projects
 
-## Run server
+This repository contains two sub-projects: one for training a deep neural network (`pytorch`), and one for deploying the
+web server (`src`).
 
-This application can be run with [Flask][flask] or [Gunicorn][gunicorn]. Make sure you activate your environment before
-running the application in either case:
-
-[flask]: http://flask.pocoo.org/docs/1.0/
-[gunicorn]: https://gunicorn.org/
-
-```bash
-source env/bin/activate
-```
-
-### Run server with Flask
-
-#### Default host and port
-
-```bash
-cd src
-FLASK_APP=server.py flask run
-```
-
-#### Specific host and port
-
-Replace `<hostname>` and `<port>` with the desired host and port.
-
-```bash
-cd src
-FLASK_APP=server.py flask run --host <hostname> --port <port>
-```
-
-### Run server with Gunicorn
-
-#### Default host and port
-
-```bash
-cd src
-gunicorn server:app
-```
-
-#### Specific host and port
-
-Replace `<hostname>` and `<port>` with the desired host and port.
-
-```bash
-cd src
-gunicorn server:app --bind <hostname>:<port>
-```
-
-### Hiding the GPU when running the server
-
-If you have an NVIDIA GPU on your machine, the server will use it by default. If you want the server to only use the
-CPU, you can hide your GPUs by prepending `CUDA_VISIBLE_DEVICES= ` to the above commands, e.g.:
-
-```bash
-CUDA_VISIBLE_DEVICES= gunicorn server:app
-```
-
-## Train a model
-
-This code comes with a pre-trained model. If you want to train it yourself, check out the `pytorch` folder.
+The two sub-projects have their own `requirements.txt` files because the server is designed to run on Heroku. In
+particular, `src` has minimal dependencies and loads a PyTorch wheel that only supports the CPU. The two sub-projects
+have different versions of PyTorch and thus, their environments are generally incompatible.

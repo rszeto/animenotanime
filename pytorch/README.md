@@ -1,7 +1,18 @@
 # pytorch
 
-This part of the code is used to train a deep neural network that classifies anime images. All commands should be run in
-this directory (`pytorch`) unless otherwise specified.
+This part of the code is used to train a deep neural network that classifies anime images.
+
+All commands should be run in this directory (`pytorch`) unless otherwise specified.
+
+## Create environment
+
+This code requires Python 3.5 or above.
+
+```bash
+virtualenv -p python3 env
+source env/bin/activate
+pip install -r requirements.txt
+```
 
 ## Preparing data
 
@@ -27,7 +38,9 @@ The following command will train the deep neural network and save a checkpoint t
 python train.py data --gpu 0 --pretrained
 ```
 
-The training script is taken directly from the [official PyTorch example](https://github.com/pytorch/examples/blob/27a6244452c5fcc2269dc59e26a50a4599771081/imagenet/main.py).
+The training script is taken directly from the [official PyTorch example][pytorch-example].
+
+[pytorch-example]: https://github.com/pytorch/examples/blob/27a6244452c5fcc2269dc59e26a50a4599771081/imagenet/main.py
 
 
 ## Extracting model weights and copying to the server
