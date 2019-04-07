@@ -16,6 +16,16 @@ class StopWorkToken:
     pass
 
 
+def download_url(url, dest):
+    if os.path.isfile(dest):
+        print('Destination %s exists, skipping' % dest)
+        return 0
+    else:
+        print('Downloading %s to %s' % (url, dest))
+        urlretrieve(url, dest)
+        return 1
+
+
 def download_list(url_dest_pairs, num_workers):
     q = Queue()
     num_downloads_counter = [0]
@@ -29,17 +39,17 @@ def download_list(url_dest_pairs, num_workers):
             if isinstance(item, StopWorkToken):
                 break
             # Try to download from the URL
-            print('Downloading %s to %s' % item)
             try:
-                urlretrieve(*item)
+                num_downloads = download_url(*item)
             except Exception as e:
                 print(e)
                 continue
+            finally:
+                # Decrement task count
+                q.task_done()
             # Update counter
             with num_downloads_lock:
-                num_downloads_counter[0] += 1
-            # Decrement task count
-            q.task_done()
+                num_downloads_counter[0] += num_downloads
 
     # Create threads
     threads = []
