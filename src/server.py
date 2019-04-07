@@ -46,18 +46,25 @@ def sendIndex():
 # Process uploaded image. The request should have a file in the 'image' attribute.
 @app.route('/upload', methods=['POST'])
 def submitImage():
+    # Try to read the submitted image
     imageData = request.files.get('image')
-    filename, ext = os.path.splitext(imageData.filename)
-    if not ext in ALLOWED_EXTS:
-        # Throw error
-        abort(400, 'File type not supported')
-    else:
-        image = Image.open(imageData.stream).convert('RGB')
-        image_tensor = transform(image).unsqueeze(0)
-        output = model(image_tensor.to(device))
-        confidences = np.nan_to_num(softmax(output[0, :2]).detach().cpu().numpy()).tolist()
-        ret = dict(confidences=confidences)
-        return json.dumps(ret)
+    try:
+        image = Image.open(imageData.stream)
+    except OSError as e:
+        if 'cannot identify image file' in str(e):
+            raise RuntimeError('Failed to read image data')
+        raise e
+
+    # Preprocess the image
+    image = image.convert('RGB')
+    image_tensor = transform(image).unsqueeze(0)
+    # Pass image through the model
+    output = model(image_tensor.to(device))
+    confidences = np.nan_to_num(softmax(output[0, :2]).detach().cpu().numpy()).tolist()
+
+    # Format the response
+    ret = dict(confidences=confidences)
+    return json.dumps(ret)
 
 @app.errorhandler(400)
 @app.errorhandler(500)
