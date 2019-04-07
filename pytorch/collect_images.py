@@ -10,6 +10,19 @@ from imgurpython import ImgurClient
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
 
 
+def download_list(url_dest_pairs):
+    num_downloads = 0
+    for url, dest in url_dest_pairs:
+        print('Downloading %s to %s' % (url, dest))
+        try:
+            urlretrieve(url, dest)
+        except:
+            print("Unexpected error:", sys.exec_info()[0])
+            continue
+        num_downloads += 1
+    return num_downloads
+
+
 def download_not_anime_images(client_id, client_secret, num_pages, subreddits):
 
     client = ImgurClient(client_id, client_secret)
@@ -17,33 +30,22 @@ def download_not_anime_images(client_id, client_secret, num_pages, subreddits):
     if not os.path.isdir(not_anime_dir):
         os.makedirs(not_anime_dir)
 
-    numItems = 0
+    urls = []
     for subreddit in subreddits:
-        cycleFound = False
         for page in range(num_pages):
             items = client.subreddit_gallery(subreddit, window='all', page=page)
-            for item in items:
-                _, ext = os.path.splitext(item.link)
-                if ext in ALLOWED_EXTS:
-                    url = item.link
-                    basename = os.path.basename(url)
-                    dest = os.path.join(not_anime_dir, basename)
-                    if not os.path.exists(dest):
-                        print('Downloading %s' % url)
-                        try:
-                            urlretrieve(url, dest)
-                            numItems += 1
-                        except:
-                            print("Unexpected error:", sys.exec_info()[0])
-                            continue
-                    else:
-                        print('File %s exists, Imgur API is likely cycling images. Stopping' % basename)
-                        cycleFound = True
-                        break
-            if cycleFound:
-                break
+            urls += [item.link for item in items]
 
-    print('Downloaded %d images over %d gallery pages x %d galleries' % (numItems, num_pages, len(subreddits)))
+    # Create a set of urls, which filters out duplicates
+    urls = set(urls)
+    # Only keep valid image URLs, i.e. ones that end with an allowed extension
+    urls = filter(lambda url: os.path.splitext(url)[1] in ALLOWED_EXTS, urls)
+    # Construct url-destination pairs
+    url_dest_pairs = [(url, (os.path.join(not_anime_dir, os.path.basename(url)))) for url in urls]
+
+    # Download the images
+    num_downloads = download_list(url_dest_pairs)
+    print('Downloaded %d images over %d gallery pages x %d galleries' % (num_downloads, num_pages, len(subreddits)))
 
 
 def download_anime_images(num_pages):
