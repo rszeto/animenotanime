@@ -15,7 +15,7 @@ from torch.nn.functional import softmax
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
 
 # Define and load prediction network from checkpoint
-model = models.resnet18()
+model = models.squeezenet1_1()
 checkpoint = torch.load('model_best_small.pth.tar')
 model.load_state_dict(checkpoint)
 
