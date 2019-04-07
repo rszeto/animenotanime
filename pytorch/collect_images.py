@@ -54,7 +54,7 @@ def download_anime_images(num_pages):
     if not os.path.exists(anime_dir):
         os.mkdir(anime_dir)
 
-    numItems = 0
+    url_dest_pairs = []
     for page in range(num_pages):
         url = 'http://konachan.net/post.json?limit=100&page=%d' % page
         response = requests.get(url)
@@ -62,23 +62,16 @@ def download_anime_images(num_pages):
 
         # Iterate through all returned posts
         for imageData in data:
-            # Extract image url from the data
-            imageUrl = imageData['file_url']
-            # Make sure image is supported before downloading
-            _, ext = os.path.splitext(imageUrl)
-            # Make sure it is SFW
-            sfw = (imageData['rating'] == 's')
+            url = imageData['file_url']  # Image URL
+            _, ext = os.path.splitext(url)  # File extension
+            id = imageData['id']  # Post ID
+            sfw = (imageData['rating'] == 's')  # Safe for work flag
             if ext in ALLOWED_EXTS and sfw:
-                # Prepare for local download
-                dest = os.path.join(anime_dir, '%06d%s' % (numItems, ext))
-                print('Downloading %s' % imageUrl)
-                try:
-                    urlretrieve(imageUrl, dest)
-                    numItems += 1
-                except Exception as e:
-                    print('Error downloading %s: %s' % (imageUrl, str(e)))
-                    continue
-    print('Saved %d images' % numItems)
+                dest = os.path.join(anime_dir, '%08d%s' % (id, ext))
+                url_dest_pairs.append((url, dest))
+
+    num_downloads = download_list(url_dest_pairs)
+    print('Downloaded %d images over %d pages' % (num_downloads, num_pages))
 
 
 if __name__ == '__main__':
