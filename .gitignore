@@ -1,3 +1,4 @@
 *.pyc
 env/
 src/config.json
+pytorch/data/
