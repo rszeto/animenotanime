@@ -118,34 +118,25 @@ function createChart() {
 		title:{
 			text: "Probability of Anime"              
 		},
-		axisY: {
-			minimum: 0,
-			maximum: 1,
-			interval: 0.2,
-			gridThickness: 0
-		},
-		data: [              
-		{
-			type: "column",
+		data: [{
+			type: "pie",
+			indexLabel: "{label}: {y}%",
+			yValueFormatString: "##0.00",
 			dataPoints: [
 				{ label: "Not anime",  y: 0 },
 				{ label: "Anime",  y: 0 }
 			]
-		}
-		]
+		}]
 	});
 	return chart;
 }
 
 function updateChart(probs) {
 	// Set not-anime probability
-	chart.options.data[0].dataPoints[0].y = probs[0]
-	prob_str = (Math.round(probs[0] * 1000) / 10).toString() + "%"
-	chart.options.data[0].dataPoints[0].indexLabel = prob_str
+	chart.options.data[0].dataPoints[0].y = probs[0] * 100;
 	// Set anime probability
-	chart.options.data[0].dataPoints[1].y = probs[1]
-	prob_str = (Math.round(probs[1] * 1000) / 10).toString() + "%"
-	chart.options.data[0].dataPoints[1].indexLabel = prob_str
+	chart.options.data[0].dataPoints[1].y = probs[1] * 100;
+
 	chart.render()
 }
 
