@@ -59,7 +59,8 @@ def submitImage():
     image = image.convert('RGB')
     image_tensor = transform(image).unsqueeze(0)
     # Pass image through the model
-    output = model(image_tensor.to(device))
+    with torch.no_grad():
+        output = model(image_tensor.to(device))
     confidences = np.nan_to_num(softmax(output[0, :2]).detach().cpu().numpy()).tolist()
 
     # Format the response
