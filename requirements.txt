@@ -1,7 +1,7 @@
 numpy==1.16.2
 flask==1.0.2
 gunicorn==19.9.0
-https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp35-cp35m-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp36-cp36m-linux_x86_64.whl
 torchvision==0.2.2.post3
 requests==2.21.0
 imgurpython==1.1.7
