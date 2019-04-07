@@ -16,11 +16,11 @@ ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
 
 # Define and load prediction network from checkpoint
 model = models.resnet18()
-checkpoint = torch.load('model_best.pth.tar')
+checkpoint = torch.load('model_best.pth.tar', map_location={'cuda:0': 'cpu'})
 model.load_state_dict(checkpoint['state_dict'])
 
 # Move network to CPU/GPU
-device = torch.device('cuda', 0) if torch.cuda.is_available() else 'cpu'
+device = torch.device('cuda', 0) if torch.cuda.is_available() else torch.device('cpu')
 model.to(device)
 
 # Set network to inference mode
