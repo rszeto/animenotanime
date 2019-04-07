@@ -24,7 +24,17 @@ python create_train_val_symlinks.py
 The following command will train the deep neural network and save a checkpoint to `pytorch/model_best.pth.tar`.
 
 ```bash
-python train.py data --gpu 0
+python train.py data --gpu 0 --pretrained
 ```
 
 The training script is taken directly from the [official PyTorch example](https://github.com/pytorch/examples/blob/27a6244452c5fcc2269dc59e26a50a4599771081/imagenet/main.py).
+
+
+## Extracting model weights and copying to the server
+
+The following commands will extract just the neural network weights and copy them to the server.
+
+```bash
+python extract_model_snapshot.py
+cp model_best_small.pth.tar ../src/model_best_small.pth.tar
+```

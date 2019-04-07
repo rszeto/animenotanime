@@ -1,4 +1,4 @@
 *.pyc
-env/
 src/config.json
 pytorch/data/
+pytorch/*.pth.tar
