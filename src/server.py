@@ -16,8 +16,8 @@ ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
 
 # Define and load prediction network from checkpoint
 model = models.resnet18()
-checkpoint = torch.load('model_best.pth.tar', map_location={'cuda:0': 'cpu'})
-model.load_state_dict(checkpoint['state_dict'])
+checkpoint = torch.load('model_best_small.pth.tar')
+model.load_state_dict(checkpoint)
 
 # Move network to CPU/GPU
 device = torch.device('cuda', 0) if torch.cuda.is_available() else torch.device('cpu')
@@ -55,7 +55,7 @@ def submitImage():
         image = Image.open(imageData.stream).convert('RGB')
         image_tensor = transform(image).unsqueeze(0)
         output = model(image_tensor.to(device))
-        confidences = softmax(output[0, :2]).detach().cpu().numpy().tolist()
+        confidences = np.nan_to_num(softmax(output[0, :2]).detach().cpu().numpy()).tolist()
         ret = dict(confidences=confidences)
         return json.dumps(ret)
 
