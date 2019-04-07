@@ -118,6 +118,7 @@ function createChart() {
 		title:{
 			text: "Probability of Anime"              
 		},
+		animationEnabled: true,
 		data: [{
 			type: "pie",
 			indexLabel: "{label}: {y}%",
@@ -132,6 +133,8 @@ function createChart() {
 }
 
 function updateChart(probs) {
+	chart = createChart();
+
 	// Set not-anime probability
 	chart.options.data[0].dataPoints[0].y = probs[0] * 100;
 	// Set anime probability
@@ -187,6 +190,4 @@ $(function() {
 	animeLowConfSounds = $(".animeLowConfSound");
 	notAnimeSounds = $(".notAnimeSound");
 	notAnimeLowConfSounds = $(".notAnimeLowConfSound");
-	chart = createChart();
-	chart.render();
 });
