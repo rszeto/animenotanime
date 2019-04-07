@@ -14,13 +14,19 @@ from torch.nn.functional import softmax
 # Filter allowed extensions server-side
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
 
+# Define and load prediction network from checkpoint
 model = models.resnet18()
+checkpoint = torch.load('model_best.pth.tar')
+model.load_state_dict(checkpoint['state_dict'])
+
+# Move network to CPU/GPU
 device = torch.device('cuda', 0) if torch.cuda.is_available() else 'cpu'
 model.to(device)
-checkpoint = torch.load('pytorch/model_best.pth.tar')
-model.load_state_dict(checkpoint['state_dict'])
+
+# Set network to inference mode
 model.eval()
 
+# Define transform used on all input images for inference
 transform = transforms.Compose([
     transforms.Resize(256),
     transforms.CenterCrop(224),
