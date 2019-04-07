@@ -46,7 +46,7 @@ def submitImage():
         # Throw error
         abort(400, 'File type not supported')
     else:
-        image = Image.open(imageData.stream)
+        image = Image.open(imageData.stream).convert('RGB')
         image_tensor = transform(image).unsqueeze(0)
         output = model(image_tensor.to(device))
         confidences = softmax(output[0, :2]).detach().cpu().numpy().tolist()
