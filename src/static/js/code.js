@@ -68,11 +68,11 @@ function onFileChosen(e) {
 
 	// Define allowed file types and max file size (in bytes)
 	var allowedFileTypes = ["png", "jpeg", "jpg"];
-	var maxFileSize = 2097152
+	var maxFileSize = 2097152;
 	if(this.files && this.files[0]) {
 		// Verify that the file is a supported image type by checking extension. Assumes
 		// file name is in standard format (###.EXT)
-		var file = this.files[0]
+		var file = this.files[0];
 		var ext = file.name.split(".").pop();
 		if($.inArray(ext, allowedFileTypes) > -1) {
 			// Check that file is small enough
@@ -140,7 +140,7 @@ function updateChart(probs) {
 	// Set anime probability
 	chart.options.data[0].dataPoints[1].y = probs[1] * 100;
 
-	chart.render()
+	chart.render();
 }
 
 function scrollToDivFn(divId) {
@@ -156,7 +156,7 @@ function unmuteSoundHandler(sound) {
 	var ret = function() {
 		sound.muted = false;
 		sound.removeEventListener("ended", ret);
-	}
+	};
 	return ret;
 }
 
