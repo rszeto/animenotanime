@@ -141,7 +141,8 @@ if __name__ == '__main__':
     parser_not_anime.add_argument('client_secret', type=str)
     parser_not_anime.add_argument('--num_pages', type=int, default=1)
     parser_not_anime.add_argument('--subreddits', type=str, nargs='+', default=[
-        'art', 'comics', 'comicbooks', 'mapporn', 'marvel', 'dccomics'
+        'abandonedporn', 'aww', 'cozyplaces', 'earthporn', 'eyebleach', 'happy', 'itookapicture', 'oldschoolcool',
+        'pic', 'pics'
     ])
     parser_not_anime.add_argument('--num_workers', type=int, default=4, help='Number of download threads/workers')
 
