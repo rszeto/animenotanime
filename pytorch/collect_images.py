@@ -22,7 +22,11 @@ def download_url(url, dest):
         return 0
     else:
         print('Downloading %s to %s' % (url, dest))
-        urlretrieve(url, dest)
+        try:
+            urlretrieve(url, dest)
+        except Exception as e:
+            print(e)
+            return 0
         return 1
 
 
@@ -39,15 +43,10 @@ def download_list(url_dest_pairs, num_workers):
             if isinstance(item, StopWorkToken):
                 break
             # Try to download from the URL
-            try:
-                num_downloads = download_url(*item)
-            except Exception as e:
-                print(e)
-                continue
-            finally:
-                # Decrement task count
-                q.task_done()
-            # Update counter
+            num_downloads = download_url(*item)
+            # Decrement task count
+            q.task_done()
+            # Update download counter
             with num_downloads_lock:
                 num_downloads_counter[0] += num_downloads
 
