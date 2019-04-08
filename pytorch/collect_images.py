@@ -1,12 +1,11 @@
 import argparse
 import os
-import sys
 from queue import Queue
 from threading import Lock, Thread
 from urllib.request import urlretrieve
 
+import praw
 import requests
-from imgurpython import ImgurClient
 
 
 ALLOWED_EXTS = ['.png', '.jpg', '.jpeg']
@@ -74,36 +73,28 @@ def download_list(url_dest_pairs, num_workers):
     return num_downloads_counter[0]
 
 
-def download_not_anime_images(client_id, client_secret, num_pages, subreddits, num_workers):
+def download_not_anime_images(client_id, client_secret, num_images_per_subreddit, subreddits, num_workers):
 
-    client = ImgurClient(client_id, client_secret)
+    reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent='animenotanime by /u/roanwolf11')
     not_anime_dir = os.path.join('data', 'images', 'not_anime')
     if not os.path.isdir(not_anime_dir):
         os.makedirs(not_anime_dir)
 
-    urls = set()  # unique urls across all subreddits
+    url_dest_pairs = []
     for subreddit in subreddits:
-        subreddit_urls = set()  # unique urls for this subreddit
-        for page in range(num_pages):
-            items = client.subreddit_gallery(subreddit, window='all', page=page)
-            if len(items) == 0:
-                # No more urls for this subreddit
-                break
-            new_subreddit_urls = set([item.link for item in items])
-            if len(new_subreddit_urls.difference(subreddit_urls)) == 0:
-                # All urls are duplicates
-                break
-            subreddit_urls = subreddit_urls.union(new_subreddit_urls)
-        urls = urls.union(subreddit_urls)
+        submissions = reddit.subreddit(subreddit).hot(limit=num_images_per_subreddit)
+        for submission in submissions:
+            url = submission.url
+            _, ext = os.path.splitext(url)
+            id = submission.id
 
-    # Only keep valid image URLs, i.e. ones that end with an allowed extension
-    urls = filter(lambda url: os.path.splitext(url)[1] in ALLOWED_EXTS, urls)
-    # Construct url-destination pairs
-    url_dest_pairs = [(url, (os.path.join(not_anime_dir, os.path.basename(url)))) for url in urls]
+            if ext in ALLOWED_EXTS:
+                dest = os.path.join(not_anime_dir, '%s%s' % (id, ext))
+                url_dest_pairs.append((url, dest))
 
     # Download the images
     num_downloads = download_list(url_dest_pairs, num_workers)
-    print('Downloaded %d images over %d gallery pages x %d galleries' % (num_downloads, num_pages, len(subreddits)))
+    print('Downloaded %d images over %d galleries' % (num_downloads, len(subreddits)))
 
 
 def download_anime_images(num_pages, num_workers):
@@ -139,7 +130,7 @@ if __name__ == '__main__':
     parser_not_anime = subparsers.add_parser('notanime')
     parser_not_anime.add_argument('client_id', type=str)
     parser_not_anime.add_argument('client_secret', type=str)
-    parser_not_anime.add_argument('--num_pages', type=int, default=1)
+    parser_not_anime.add_argument('--num_images_per_subreddit', type=int, default=1)
     parser_not_anime.add_argument('--subreddits', type=str, nargs='+', default=[
         'abandonedporn', 'aww', 'cozyplaces', 'earthporn', 'eyebleach', 'happy', 'itookapicture', 'oldschoolcool',
         'pic', 'pics'
@@ -153,6 +144,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.cmd == 'notanime':
-        download_not_anime_images(args.client_id, args.client_secret, args.num_pages, args.subreddits, args.num_workers)
+        download_not_anime_images(args.client_id, args.client_secret, args.num_images_per_subreddit, args.subreddits,
+                                  args.num_workers)
     else:
         download_anime_images(args.num_pages, args.num_workers)
