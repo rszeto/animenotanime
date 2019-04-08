@@ -81,14 +81,21 @@ def download_not_anime_images(client_id, client_secret, num_pages, subreddits, n
     if not os.path.isdir(not_anime_dir):
         os.makedirs(not_anime_dir)
 
-    urls = []
+    urls = set()  # unique urls across all subreddits
     for subreddit in subreddits:
+        subreddit_urls = set()  # unique urls for this subreddit
         for page in range(num_pages):
             items = client.subreddit_gallery(subreddit, window='all', page=page)
-            urls += [item.link for item in items]
+            if len(items) == 0:
+                # No more urls for this subreddit
+                break
+            new_subreddit_urls = set([item.link for item in items])
+            if len(new_subreddit_urls.difference(subreddit_urls)) == 0:
+                # All urls are duplicates
+                break
+            subreddit_urls = subreddit_urls.union(new_subreddit_urls)
+        urls = urls.union(subreddit_urls)
 
-    # Create a set of urls, which filters out duplicates
-    urls = set(urls)
     # Only keep valid image URLs, i.e. ones that end with an allowed extension
     urls = filter(lambda url: os.path.splitext(url)[1] in ALLOWED_EXTS, urls)
     # Construct url-destination pairs
