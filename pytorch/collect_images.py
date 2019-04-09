@@ -132,8 +132,25 @@ if __name__ == '__main__':
     parser_not_anime.add_argument('client_secret', type=str)
     parser_not_anime.add_argument('--num_images_per_subreddit', type=int, default=1)
     parser_not_anime.add_argument('--subreddits', type=str, nargs='+', default=[
-        'abandonedporn', 'aww', 'cozyplaces', 'earthporn', 'eyebleach', 'happy', 'itookapicture', 'oldschoolcool',
-        'pic', 'pics'
+        'abandonedporn',
+        'aww',
+        'blunderyears',
+        'carporn',
+        'cozyplaces',
+        'earthporn',
+        'eyebleach',
+        'food',
+        'foodporn',
+        'happy',
+        'itookapicture',
+        'mildlyinteresting',
+        'oldschoolcool',
+        'perfecttiming',
+        'photoshopbattles',
+        'pic',
+        'pics',
+        'portraits',
+        'roomporn'
     ])
     parser_not_anime.add_argument('--num_workers', type=int, default=4, help='Number of download threads/workers')
 
