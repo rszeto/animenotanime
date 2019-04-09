@@ -11,7 +11,8 @@ def main(images_root):
         if i % 100 == 0:
             print('Processing {} (file {}/{})'.format(image_file_path, i+1, len(image_file_names)))
         try:
-            Image.open(image_file_path)
+            image = Image.open(image_file_path)
+            image_rgb = image.convert('RGB')
         except OSError:
             print('Deleting {}'.format(image_file_path))
             os.remove(image_file_path)
