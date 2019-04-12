@@ -67,7 +67,7 @@ function onFileChosen(e) {
 	$(".display-with-results").hide();
 
 	// Define allowed file types and max file size (in bytes)
-	var allowedFileTypes = ["png", "jpeg", "jpg"];
+	var allowedFileTypes = ["png", "jpeg", "jpg", "PNG", "JPEG", "JPG"];
 	var maxFileSize = 2097152;
 	if(this.files && this.files[0]) {
 		// Verify that the file is a supported image type by checking extension. Assumes
